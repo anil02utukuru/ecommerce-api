@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # E-commerce Demo Project
 
 This is a simple e-commerce demo application built with Java and Spring Boot.
@@ -60,3 +61,7 @@ demo/
 
 ## License
 This project is for demonstration purposes only.
+=======
+# ecommerce-api
+A simple full stack ecommerce application with basic CRUD operations
+>>>>>>> d842036d1685f64723c15743e3a0a797df0141ad
