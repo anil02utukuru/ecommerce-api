@@ -1,0 +1,732 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>E-Commerce Product Manager</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        header {
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        h1 {
+            color: #667eea;
+            font-size: 2.5em;
+            margin-bottom: 10px;
+        }
+
+        .subtitle {
+            color: #666;
+            font-size: 1.1em;
+        }
+
+        .main-content {
+            display: grid;
+            grid-template-columns: 1fr 2fr;
+            gap: 30px;
+        }
+
+        .form-section {
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+            height: fit-content;
+            position: sticky;
+            top: 20px;
+        }
+
+        .products-section {
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+        }
+
+        h2 {
+            color: #667eea;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 3px solid #667eea;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            color: #333;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+
+        input, textarea, select {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 14px;
+            transition: all 0.3s;
+            font-family: inherit;
+        }
+
+        input:focus, textarea:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+
+        textarea {
+            resize: vertical;
+            min-height: 80px;
+        }
+
+        .btn {
+            padding: 12px 30px;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: inline-block;
+            text-align: center;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            width: 100%;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 20px rgba(102, 126, 234, 0.4);
+        }
+
+        .btn-secondary {
+            background: #6c757d;
+            color: white;
+            margin-left: 10px;
+        }
+
+        .btn-secondary:hover {
+            background: #5a6268;
+        }
+
+        .btn-edit {
+            background: #ffc107;
+            color: #333;
+            padding: 8px 16px;
+            font-size: 14px;
+        }
+
+        .btn-edit:hover {
+            background: #e0a800;
+        }
+
+        .btn-delete {
+            background: #dc3545;
+            color: white;
+            padding: 8px 16px;
+            font-size: 14px;
+        }
+
+        .btn-delete:hover {
+            background: #c82333;
+        }
+
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .product-card {
+            border: 2px solid #e0e0e0;
+            border-radius: 12px;
+            padding: 20px;
+            transition: all 0.3s;
+            background: white;
+        }
+
+        .product-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            border-color: #667eea;
+        }
+
+        .product-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: start;
+            margin-bottom: 15px;
+        }
+
+        .product-name {
+            font-size: 1.3em;
+            font-weight: 700;
+            color: #333;
+            flex: 1;
+        }
+
+        .product-id {
+            background: #667eea;
+            color: white;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.85em;
+            font-weight: 600;
+        }
+
+        .product-description {
+            color: #666;
+            margin-bottom: 15px;
+            line-height: 1.5;
+        }
+
+        .product-details {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            margin-bottom: 15px;
+            padding: 15px;
+            background: #f8f9fa;
+            border-radius: 8px;
+        }
+
+        .detail-item {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .detail-label {
+            font-size: 0.85em;
+            color: #666;
+            margin-bottom: 4px;
+        }
+
+        .detail-value {
+            font-weight: 600;
+            color: #333;
+        }
+
+        .product-price {
+            font-size: 1.8em;
+            font-weight: 700;
+            color: #48bb78;
+            margin-bottom: 10px;
+        }
+
+        .product-actions {
+            display: flex;
+            gap: 10px;
+            margin-top: 15px;
+        }
+
+        .alert {
+            padding: 15px 20px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            display: none;
+        }
+
+        .alert-success {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+
+        .alert-error {
+            background: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+
+        .loading {
+            text-align: center;
+            padding: 40px;
+            color: #666;
+        }
+
+        .spinner {
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid #667eea;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+            margin: 20px auto;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .stat-card {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+        }
+
+        .stat-value {
+            font-size: 2em;
+            font-weight: 700;
+            margin-bottom: 5px;
+        }
+
+        .stat-label {
+            font-size: 0.9em;
+            opacity: 0.9;
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 60px 20px;
+            color: #999;
+        }
+
+        .empty-state-icon {
+            font-size: 4em;
+            margin-bottom: 20px;
+        }
+
+        @media (max-width: 968px) {
+            .main-content {
+                grid-template-columns: 1fr;
+            }
+
+            .form-section {
+                position: relative;
+                top: 0;
+            }
+
+            .products-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🛒 E-Commerce Product Manager</h1>
+            <p class="subtitle">Manage your products with ease - Add, Edit, Delete in real-time</p>
+        </header>
+
+        <div class="main-content">
+            <!-- Form Section -->
+            <div class="form-section">
+                <h2 id="formTitle">➕ Add New Product</h2>
+                
+                <div id="alertBox" class="alert"></div>
+
+                <form id="productForm">
+                                        <div class="form-group">
+                                            <label for="crudOperation">Choose Operation *</label>
+                                            <select id="crudOperation" required>
+                                                <option value="POST" selected>POST (Add Product)</option>
+                                                <option value="PUT">PUT (Update Product)</option>
+                                                <option value="GET">GET (Fetch by ID)</option>
+                                                <option value="DELETE">DELETE (Delete by ID)</option>
+                                            </select>
+                                        </div>
+                    <div class="form-group" id="productIdGroup">
+                        <label for="productId">Product ID *</label>
+                        <input type="number" id="productId" min="1" placeholder="Enter Product ID">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="productName">Product Name *</label>
+                        <input type="text" id="productName" placeholder="e.g., Wireless Headphones" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="productDescription">Description *</label>
+                        <textarea id="productDescription" placeholder="Enter product description..." required></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="productPrice">Price ($) *</label>
+                        <input type="number" id="productPrice" step="0.01" min="0" placeholder="99.99" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="productStock">Stock Quantity *</label>
+                        <input type="number" id="productStock" min="0" placeholder="100" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="productCategory">Category *</label>
+                        <input type="text" id="productCategory" placeholder="e.g., Electronics" required>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary" id="submitBtn">
+                        ➕ Add Product
+                    </button>
+                    <button type="button" class="btn btn-secondary" id="cancelBtn" style="display: none; width: 100%; margin-top: 10px;">
+                        ❌ Cancel
+                    </button>
+                </form>
+            </div>
+
+            <!-- Products Section -->
+            <div class="products-section">
+                <h2>📦 Product Inventory</h2>
+
+                <div class="stats" id="statsSection">
+                    <div class="stat-card">
+                        <div class="stat-value" id="totalProducts">0</div>
+                        <div class="stat-label">Total Products</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value" id="totalProducts">0</div>
+                        <div class="stat-label">Total Products</div>
+                    </div>
+                </div>
+
+                <div id="loadingSection" class="loading">
+                    <div class="spinner"></div>
+                    <p>Loading products...</p>
+                </div>
+
+                <div id="productsGrid" class="products-grid"></div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+                // Enable/disable form fields based on CRUD operation
+                document.getElementById('crudOperation').addEventListener('change', function() {
+                    const op = this.value;
+                    const fields = ['productName', 'productDescription', 'productPrice', 'productStock', 'productCategory'];
+                    const idField = document.getElementById('productId');
+                    if (op === 'GET' || op === 'DELETE') {
+                        fields.forEach(f => document.getElementById(f).disabled = true);
+                        idField.disabled = false;
+                        submitBtn.textContent = op === 'GET' ? '🔍 Get Product' : '🗑️ Delete Product';
+                    } else if (op === 'POST') {
+                        fields.forEach(f => document.getElementById(f).disabled = false);
+                        idField.disabled = true;
+                        submitBtn.textContent = '➕ Add Product';
+                    } else if (op === 'PUT') {
+                        fields.forEach(f => document.getElementById(f).disabled = false);
+                        idField.disabled = false;
+                        submitBtn.textContent = '💾 Update Product';
+                    }
+                });
+
+                // Set initial state
+                document.getElementById('crudOperation').dispatchEvent(new Event('change'));
+        // API Configuration
+        const API_BASE_URL = 'http://localhost:8080/api/products';
+        const ENDPOINTS = {
+            welcome: API_BASE_URL + '/',
+            fetchAll: API_BASE_URL + '/fetchProductsList',
+            get: API_BASE_URL + '/get',
+            add: API_BASE_URL + '/addProduct',
+            update: API_BASE_URL + '/put',
+            delete: API_BASE_URL + '/delete',
+        };
+        let isEditMode = false;
+
+        // DOM Elements
+        const productForm = document.getElementById('productForm');
+        const productsGrid = document.getElementById('productsGrid');
+        const loadingSection = document.getElementById('loadingSection');
+        const alertBox = document.getElementById('alertBox');
+        const formTitle = document.getElementById('formTitle');
+        const submitBtn = document.getElementById('submitBtn');
+        const cancelBtn = document.getElementById('cancelBtn');
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', () => {
+            loadProducts();
+        });
+
+        // Load all products
+        async function loadProducts() {
+            try {
+                loadingSection.style.display = 'block';
+                productsGrid.innerHTML = '';
+
+                const response = await fetch(ENDPOINTS.fetchAll);
+                const products = await response.json();
+
+                loadingSection.style.display = 'none';
+
+                if (products.length === 0) {
+                    productsGrid.innerHTML = `
+                        <div class="empty-state">
+                            <div class="empty-state-icon">📭</div>
+                            <h3>No Products Yet</h3>
+                            <p>Add your first product using the form</p>
+                        </div>
+                    `;
+                } else {
+                    renderProducts(products);
+                    updateStats(products);
+                }
+            } catch (error) {
+                loadingSection.style.display = 'none';
+                showAlert('Error loading products: ' + error.message, 'error');
+            }
+        }
+
+        // Render products
+        function renderProducts(products) {
+            productsGrid.innerHTML = products.map(product => `
+                <div class="product-card">
+                    <div class="product-header">
+                        <div class="product-name">${escapeHtml(product.productName)}</div>
+                        <div class="product-id">#${product.productId}</div>
+                    </div>
+                    <div class="product-description">${escapeHtml(product.description)}</div>
+                    <div class="product-price">₹${product.price.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})}</div>
+                    <div class="product-details">
+                        <div class="detail-item">
+                            <span class="detail-label">Stock</span>
+                            <span class="detail-value">${product.stock ? product.stock + ' units' : 'N/A'}</span>
+                        </div>
+                        <div class="detail-item">
+                            <span class="detail-label">Category</span>
+                            <span class="detail-value">${escapeHtml(product.category)}</span>
+                        </div>
+                    </div>
+                    <div class="product-actions">
+                        <button class="btn btn-edit" onclick="editProduct(${product.productId})">✏️ Edit</button>
+                        <button class="btn btn-delete" onclick="deleteProduct(${product.productId})">🗑️ Delete</button>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // Update statistics
+                    // API Configuration
+                    // const API_BASE_URL = 'http://localhost:8080/api/products';
+                    // const ENDPOINTS = {
+                    //     welcome: API_BASE_URL + '/',
+                    //     fetchAll: API_BASE_URL + '/fetchProductsList',
+                    //     get: API_BASE_URL + '/get',
+                    //     add: API_BASE_URL + '/addProduct',
+                    //     update: API_BASE_URL + '/put',
+                    //     delete: API_BASE_URL + '/delete',
+                    // };
+                    // let isEditMode = false;
+        function updateStats(products) {
+            const totalProducts = products.length;
+            const totalValue = products.reduce((sum, p) => sum + ((p.price || 0) * (p.stock || 0)), 0);
+            const totalStock = products.reduce((sum, p) => sum + (p.stock || 0), 0);
+
+            document.getElementById('totalProducts').textContent = totalProducts;
+            document.getElementById('totalValue').textContent = '₹' + totalValue.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2});
+            document.getElementById('totalStock').textContent = totalStock;
+        }
+
+        // Add/Update product
+        productForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+
+            const operation = document.getElementById('crudOperation').value;
+            const productId = document.getElementById('productId').value;
+            const productData = {
+                productId: productId ? parseInt(productId) : undefined,
+                productName: document.getElementById('productName').value,
+                description: document.getElementById('productDescription').value,
+                price: parseFloat(document.getElementById('productPrice').value),
+                stock: parseInt(document.getElementById('productStock').value),
+                category: document.getElementById('productCategory').value
+            };
+
+            try {
+                let response, result;
+                if (operation === 'GET') {
+                    if (!productId) {
+                        showAlert('Please enter a Product ID to fetch.', 'error');
+                        return;
+                    }
+                    response = await fetch(`${ENDPOINTS.get}/${productId}`);
+                    result = await response.json();
+                    if (response.ok) {
+                        showAlert('Product fetched successfully!', 'success');
+                        // Optionally, fill the form with fetched product details
+                        document.getElementById('productName').value = result.productName || '';
+                        document.getElementById('productDescription').value = result.description || '';
+                        document.getElementById('productPrice').value = result.price || '';
+                        document.getElementById('productStock').value = result.stock || '';
+                        document.getElementById('productCategory').value = result.category || '';
+                    } else {
+                        showAlert('Product not found.', 'error');
+                    }
+                    return;
+                } else if (operation === 'POST') {
+                    response = await fetch(ENDPOINTS.add, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(productData)
+                    });
+                } else if (operation === 'PUT') {
+                    if (!productId) {
+                        showAlert('Please select a product to update (Edit first).', 'error');
+                        return;
+                    }
+                    response = await fetch(`${ENDPOINTS.update}/${productId}`, {
+                        method: 'PUT',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(productData)
+                    });
+                } else if (operation === 'DELETE') {
+                    if (!productId) {
+                        showAlert('Please enter a Product ID to delete.', 'error');
+                        return;
+                    }
+                    response = await fetch(`${ENDPOINTS.delete}/${productId}`, {
+                        method: 'DELETE'
+                    });
+                }
+
+                if (operation === 'POST' || operation === 'PUT' || operation === 'DELETE') {
+                    result = await response.json();
+                    if (response.ok) {
+                        let msg = '';
+                        if (operation === 'POST') msg = 'Product added successfully!';
+                        if (operation === 'PUT') msg = 'Product updated successfully!';
+                        if (operation === 'DELETE') msg = 'Product deleted successfully!';
+                        showAlert(msg, 'success');
+                        productForm.reset();
+                        resetForm();
+                        loadProducts();
+                    } else {
+                        showAlert('Error: ' + (result.details ? JSON.stringify(result.details) : result.message), 'error');
+                    }
+                }
+            } catch (error) {
+                showAlert('Error: ' + error.message, 'error');
+            }
+        });
+        async function editProduct(id) {
+            try {
+                // Fetch product details by ID (if needed)
+                const response = await fetch(`${ENDPOINTS.get}/${id}`);
+                const product = await response.json();
+                if (response.ok) {
+                    isEditMode = true;
+                    document.getElementById('productId').value = product.productId;
+                    document.getElementById('productName').value = product.productName;
+                    document.getElementById('productDescription').value = product.description;
+                    document.getElementById('productPrice').value = product.price;
+                    document.getElementById('productStock').value = product.stock;
+                    document.getElementById('productCategory').value = product.category;
+
+                    // Switch operation to PUT automatically
+                    document.getElementById('crudOperation').value = 'PUT';
+                    document.getElementById('crudOperation').dispatchEvent(new Event('change'));
+
+                    formTitle.textContent = '✏️ Edit Product';
+                    submitBtn.textContent = '💾 Update Product';
+                    cancelBtn.style.display = 'block';
+
+                    // Scroll to form
+                    document.querySelector('.form-section').scrollIntoView({ behavior: 'smooth' });
+                } else {
+                    showAlert('Error loading product', 'error');
+                }
+            } catch (error) {
+                showAlert('Error: ' + error.message, 'error');
+            }
+        }
+
+        // Delete product
+        async function deleteProduct(id) {
+            if (!confirm('Are you sure you want to delete this product?')) {
+                return;
+            }
+
+            try {
+                const response = await fetch(`${ENDPOINTS.delete}/${id}`, {
+                    method: 'DELETE'
+                });
+
+                if (response.ok) {
+                    showAlert('Product deleted successfully!', 'success');
+                    loadProducts();
+                } else {
+                    showAlert('Error deleting product', 'error');
+                }
+            } catch (error) {
+                showAlert('Error: ' + error.message, 'error');
+            }
+        }
+
+        // Reset form
+        cancelBtn.addEventListener('click', resetForm);
+
+        function resetForm() {
+            isEditMode = false;
+            productForm.reset();
+            document.getElementById('productId').value = '';
+            formTitle.textContent = '➕ Add New Product';
+            submitBtn.textContent = '➕ Add Product';
+            cancelBtn.style.display = 'none';
+        }
+
+        // Show alert
+        function showAlert(message, type) {
+            alertBox.textContent = message;
+            alertBox.className = 'alert alert-' + type;
+            alertBox.style.display = 'block';
+
+            setTimeout(() => {
+                alertBox.style.display = 'none';
+            }, 5000);
+        }
+
+        // Escape HTML
+        function escapeHtml(text) {
+            const map = {
+                '&': '&amp;',
+                '<': '&lt;',
+                '>': '&gt;',
+                '"': '&quot;',
+                "'": '&#039;'
+            };
+            return text.replace(/[&<>"']/g, m => map[m]);
+        }
+    </script>
+</body>
+</html>
